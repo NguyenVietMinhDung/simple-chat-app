@@ -2,38 +2,20 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
-const { Schema } = mongoose;
+const socket = require('socket.io');
+const { databaseConfig } = require('./config');
 
 const app = express();
 
-const authentication = {
-  username: 'dungvmnguyen',
-  password: 'caubehaudau67NTH',
-};
-
+const { Schema } = mongoose;
 const CommentSchema = new Schema({
   name: String,
   message: String,
 });
-
 const CommentModel = mongoose.model('Comment', CommentSchema);
 
-const dbName = 'simple_chat_app';
-
-const uri = `mongodb+srv://${authentication.username}:${authentication.password}@cluster0.npv8s.mongodb.net/${dbName}`;
-
-mongoose.connect(uri, (err) => {
-  if (err) {
-    console.log(err);
-  }
-  console.log('Mongodb connected');
-});
-
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(bodyParser.json());
-
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],
@@ -41,8 +23,8 @@ app.use(cors({
 }));
 
 app.get('/comments', (req, res) => {
-  CommentModel.find({}, (err, messages) => {
-    res.send(messages);
+  CommentModel.find({}, (err, comments) => {
+    res.send(comments);
   });
 });
 
@@ -52,10 +34,25 @@ app.post('/comments', (req, res) => {
     if (err) {
       res.sendStatus(500);
     }
+    io.emit('comment', ...Object.values(req.body));
     res.sendStatus(200);
-  })
+  });
 });
 
-const server = app.listen(8000, () => {
+mongoose.connect(databaseConfig.getConnectionUrl(), (err) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log('Mongodb connected');
+});
+
+const PORT = process.env.PORT || 3001;
+const server = app.listen(PORT, () => {
   console.log('Server is running on port', server.address().port);
+});
+
+const io = socket.listen(server);
+io.set('origins', '*:*');
+io.on('connection', () => {
+  console.log('A user is connected');
 });
