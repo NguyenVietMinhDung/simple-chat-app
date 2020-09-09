@@ -5,7 +5,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import styles from './ChatForm.module.css';
 import { addComment } from '../../slides/comment';
-import generateUniqueId from '../../utils/generateUniqueId';
+import idGenerator from '../../utils/idGenerator';
 import api, { ENDPOINT_ORIGIN } from '../../api';
 
 const ChatForm = () => {
@@ -18,7 +18,7 @@ const ChatForm = () => {
   useEffect(() => {
     const socket = io(ENDPOINT_ORIGIN);
     socket.on('comment', (name, message) => memoizedCallback(addComment, {
-      _id: generateUniqueId(),
+      _id: idGenerator(),
       name,
       message,
     }));
@@ -29,16 +29,17 @@ const ChatForm = () => {
 
     const name = event.target.name.value;
     const message = event.target.message.value;
+    const createdAt = Date.now();
 
     axios
-      .post(api.addComment, { name, message })
+      .post(api.addComment, { name, message, createdAt })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
 
   return (
-    <form className={styles["chat-form"]} onSubmit={handleSubmit}>
-      <div className={styles["chat-form__field"]}>
+    <form className={styles['chat-form']} onSubmit={handleSubmit}>
+      <div className={styles['chat-form__field']}>
         <input
           name="name"
           type="text"
@@ -46,14 +47,14 @@ const ChatForm = () => {
           required
         />
       </div>
-      <div className={styles["chat-form__field"]}>
+      <div className={styles['chat-form__field']}>
         <textarea
           name="message"
           placeholder="Your message here"
           required
         />
       </div>
-      <div className={styles["chat-form__submit"]}>
+      <div className={styles['chat-form__submit']}>
         <button type="submit">
           Send
         </button>

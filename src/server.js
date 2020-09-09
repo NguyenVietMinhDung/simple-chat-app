@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const socket = require('socket.io');
@@ -11,20 +12,30 @@ const { Schema } = mongoose;
 const CommentSchema = new Schema({
   name: String,
   message: String,
+  createdAt: Date,
 });
+CommentSchema.plugin(mongoosePaginate);
 const CommentModel = mongoose.model('Comment', CommentSchema);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({
   origin: '*',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'DELETE'],
   preflightContinue: false,
 }));
 
 app.get('/comments', (req, res) => {
-  CommentModel.find({}, (err, comments) => {
-    res.send(comments);
+  const { page, limit } = req.query;
+  CommentModel.paginate({}, {
+    page: Number.parseInt(page),
+    limit: Number.parseInt(limit),
+  }, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+    res.send(result);
   });
 });
 
@@ -32,9 +43,20 @@ app.post('/comments', (req, res) => {
   const comment = new CommentModel(req.body);
   comment.save((err) => {
     if (err) {
+      console.log(err);
       res.sendStatus(500);
     }
     io.emit('comment', ...Object.values(req.body));
+    res.sendStatus(200);
+  });
+});
+
+app.delete('/comments', (req, res) => {
+  CommentModel.remove({}, (err) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
     res.sendStatus(200);
   });
 });

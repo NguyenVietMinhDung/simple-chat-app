@@ -1,14 +1,31 @@
 .comments {
-    max-width: 100%;
-    width: 600px;
-    padding: 8px 8px 0 8px;
-    background: white;
+	overflow: auto;
+
+	width: 600px;
+	max-width: calc(100% - 16px);
+	max-height: calc(100vh - 205px);
+	padding: 8px 8px 0;
+
+	background: white;
 }
 
 .comments .comment {
-    border-bottom: 1px solid whitesmoke;
+	border-bottom: 1px solid whitesmoke;
 }
 
 .comments .comment p {
-    opacity: 0.4;
+	opacity: 0.4;
+}
+
+.loader {
+	position: fixed;
+	bottom: 0;
+
+	display: flex;
+
+	width: 600px;
+	max-width: calc(100% - 16px);
+	padding: 10px 0;
+	align-items: center;
+	justify-content: center;
 }

@@ -1,43 +1,52 @@
 .chat-form {
-    max-width: 100%;
-    width: 600px;
-    padding: 8px;
-    background: white;
-    margin: 5px 0;
+	width: 600px;
+	max-width: calc(100% - 16px);
+	margin: 5px 0;
+	padding: 8px;
+
+	background: white;
 }
 
-.chat-form__field, .chat-form__submit {
-    display: flex;
-    margin-bottom: 15px;
+.chat-form__field,
+.chat-form__submit {
+	display: flex;
+
+	margin-bottom: 15px;
 }
 
-.chat-form__field input, .chat-form__field textarea  {
-    width: 100%;
-    padding: 10px;
-    border: 0;
+.chat-form__field input,
+.chat-form__field textarea {
+	width: 100%;
+	padding: 10px;
+
+	border: 0;
 }
 
-.chat-form__field input:focus, .chat-form__field textarea:focus {
-    outline: none;
+.chat-form__field input:focus,
+.chat-form__field textarea:focus {
+	outline: none;
 }
 
-.chat-form__field input::placeholder, .chat-form__field textarea::placeholder {
-    opacity: 0.5;
+.chat-form__field input::placeholder,
+.chat-form__field textarea::placeholder {
+	opacity: 0.5;
 }
 
 .chat-form__submit button {
-    padding: 10px 20px;
-    border-radius: 50px;
-    color: white;
-    background: mediumseagreen;
-    border: 0;
+	padding: 10px 20px;
+
+	color: white;
+	border: 0;
+	border-radius: 50px;
+	background: mediumseagreen;
 }
 
 .chat-form__submit button:hover {
-    background: seagreen;
-    cursor: pointer;
+	cursor: pointer;
+
+	background: seagreen;
 }
 
 .chat-form__submit button:focus {
-    outline: none;
+	outline: none;
 }

@@ -1,6 +1,11 @@
-body, textarea, input, button {
-    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 13px !important;
-    margin: 0;
-    background: whitesmoke;
+body,
+textarea,
+input,
+button {
+	margin: 0;
+
+	background: whitesmoke;
+
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 13px !important;
 }
