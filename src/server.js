@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const express = require('express');
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
@@ -28,8 +29,8 @@ app.use(cors({
 app.get('/comments', (req, res) => {
   const { page, limit } = req.query;
   CommentModel.paginate({}, {
-    page: Number.parseInt(page),
-    limit: Number.parseInt(limit),
+    page: Number.parseInt(page, 10),
+    limit: Number.parseInt(limit, 10),
   }, (err, result) => {
     if (err) {
       console.log(err);

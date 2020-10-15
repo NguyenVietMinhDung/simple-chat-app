@@ -1,19 +1,18 @@
 /* eslint no-underscore-dangle: 'off', react-hooks/exhaustive-deps: 'off' */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import SyncLoader from 'react-spinners/SyncLoader';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
 import styles from './Comments.module.css';
 import { getComments, selectComments } from '../../slides/comment';
+import { PAGE_LIMIT } from '../../constants/Comments';
 import api from '../../api';
+import Loader from '../Loader';
 
 const Comments = () => {
-  const PAGE_LIMIT = 10;
+  const [page, setPage] = React.useState(1);
 
-  const [page, setPage] = useState(1);
-
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = React.useState(true);
 
   const dispatch = useDispatch();
 
@@ -32,22 +31,16 @@ const Comments = () => {
         setHasMore(res.data.page < res.data.pages);
         setPage(page + 1);
       })
-      .then((err) => {
+      .catch((err) => {
         if (err) {
           console.log(err);
         }
       });
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchMoreData(1);
   }, []);
-
-  const Loader = () => (
-    <div className={styles.loader}>
-      <SyncLoader size={10} color="mediumseagreen" />
-    </div>
-  );
 
   return (
     comments.length > 0 ? (

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { createSlice } from '@reduxjs/toolkit';
 
 export const comment = createSlice({

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { configureStore } from '@reduxjs/toolkit';
 import commentsReducer from '../slides/comment';
 

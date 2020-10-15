@@ -1,0 +1,12 @@
+.loader {
+	position: fixed;
+	bottom: 0;
+
+	display: flex;
+
+	width: 600px;
+	max-width: calc(100% - 16px);
+	padding: 10px 0;
+	align-items: center;
+	justify-content: center;
+}

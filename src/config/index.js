@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const databaseConfig = {
   username: 'dungvmnguyen',
   password: 'caubehaudau67NTH',
